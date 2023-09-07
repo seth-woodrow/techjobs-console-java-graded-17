@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -61,10 +58,21 @@ public class TechJobs {
                 System.out.println("\nSearch term:");
                 String searchTerm = in.nextLine();
 
+                assert searchField != null;
+
+                ArrayList<HashMap<String, String>> searchResults;
+
                 if (searchField.equals("all")) {
-                    printJobs(JobData.findByValue(searchTerm));
+                    searchResults= JobData.findByValue(searchTerm);
                 } else {
-                    printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
+                    searchResults=JobData.findByColumnAndValue(searchField, searchTerm);
+                }
+
+                if (searchResults.isEmpty()) {
+                    System.out.println("Search term:\n" +searchTerm);
+                    System.out.println("No Results");
+                } else {
+                    printJobs(searchResults);
                 }
             }
         }
@@ -77,7 +85,7 @@ public class TechJobs {
         Boolean validChoice = false;
         String[] choiceKeys = new String[choices.size()];
 
-        // Put the choices in an ordered structure so we can
+        // Put the choices in an ordered structure,so we can
         // associate an integer with each one
         int i = 0;
         for (String choiceKey : choices.keySet()) {
@@ -120,6 +128,19 @@ public class TechJobs {
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
 
-        System.out.println("printJobs is not implemented yet");
+        for (HashMap<String, String> job : someJobs) {
+            System.out.println("\n*****");
+
+            for (Map.Entry<String, String> entry : job.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+
+                System.out.println(key + ": " + value);
+            }
+
+            System.out.println("*****\n");
+        }
+
+        //System.out.println("printJobs is not implemented yet");
     }
 }
